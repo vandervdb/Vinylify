@@ -1,0 +1,48 @@
+name: Préparer le build
+description: >
+  Installe Java et Gradle, récupère l'AAR App Remote de Spotify, puis construit et publie en local
+  le SDK (spotify-sdk) dont l'app dépend via mavenLocal. À appeler après le checkout de l'app.
+
+runs:
+  using: composite
+  steps:
+    - uses: actions/checkout@v7
+      with:
+        repository: vandervdb/spotify-sdk
+        path: spotify-sdk
+
+    # L'AAR n'est pas versionné ici : il est public (Apache-2.0) dans le dépôt de Spotify.
+    # L'empreinte est vérifiée pour qu'un fichier remplacé en amont ne passe pas inaperçu.
+    - name: Télécharger l'AAR Spotify App Remote
+      shell: bash
+      env:
+        AAR: spotify-app-remote-release-0.8.0.aar
+        SHA256: b5a6dd880eaf01f63a871cba9ef7af77c341f8a94ffc8fdf2e9021f9a9d4c198
+      run: |
+        curl -fsSL "https://raw.githubusercontent.com/spotify/android-sdk/master/app-remote-lib/$AAR" -o "$AAR"
+        echo "$SHA256  $AAR" | sha256sum -c -
+        mkdir -p app/libs spotify-sdk/spotify-android/libs
+        cp "$AAR" app/libs/
+        mv "$AAR" spotify-sdk/spotify-android/libs/
+
+    - uses: actions/setup-java@v6
+      with:
+        distribution: temurin
+        java-version: '17'
+
+    - uses: gradle/actions/setup-gradle@v6
+
+    # Pas de `publishToMavenLocal` global : les cibles iOS ne se compilent pas sous Linux.
+    - name: Publier le SDK en local
+      shell: bash
+      working-directory: spotify-sdk
+      run: |
+        ./gradlew \
+          :spotify-core:publishJvmPublicationToMavenLocal \
+          :spotify-core:publishKotlinMultiplatformPublicationToMavenLocal \
+          :spotify-testing:publishJvmPublicationToMavenLocal \
+          :spotify-testing:publishKotlinMultiplatformPublicationToMavenLocal \
+          :spotify-android:publishToMavenLocal \
+          :spotify-android-hilt:publishToMavenLocal \
+          :spotify-android-testing:publishToMavenLocal \
+          --stacktrace

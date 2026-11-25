@@ -1,0 +1,46 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    name: Tests et compilation
+    runs-on: ubuntu-latest
+    env:
+      # Valeur factice : la CI n'ouvre aucune session Spotify, elle compile seulement.
+      SPOTIFY_CLIENT_ID: ci-placeholder
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: ./.github/actions/prepare
+
+      # assembleRelease passe aussi par R8 et le lint « vital » : c'est ce qui a révélé des
+      # chaînes anglaises orphelines, qui n'apparaissent pas en debug.
+      - name: Tests unitaires, debug et release
+        run: ./gradlew :app:testDebugUnitTest :app:assembleDebug :app:assembleRelease --stacktrace
+
+      - uses: actions/upload-artifact@v7
+        with:
+          name: vinylify-debug-apk
+          path: app/build/outputs/apk/debug/app-debug.apk
+          retention-days: 7
+
+      - if: failure()
+        uses: actions/upload-artifact@v7
+        with:
+          name: rapports
+          path: |
+            app/build/reports/**
+            app/build/intermediates/lint_vital_intermediate_text_report/**
+          retention-days: 7

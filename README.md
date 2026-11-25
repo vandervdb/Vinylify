@@ -58,7 +58,7 @@ di/             modules Hilt
 ## Lancer le projet
 
 1. **Dépendance SDK.** Le SDK n'est pas publié : il est lu depuis `mavenLocal`. Dans le dépôt [spotify-sdk](https://github.com/vandervdb/spotify-sdk), publie les modules Android et cœur (voir son README), puis reviens ici.
-2. **AAR App Remote.** Télécharge `spotify-app-remote-release-0.8.0.aar` depuis [spotify/android-sdk](https://github.com/spotify/android-sdk) et place-le dans `app/libs/` (il n'est pas versionné, Spotify ne l'autorise pas à être redistribué).
+2. **AAR App Remote.** Télécharge `spotify-app-remote-release-0.8.0.aar` depuis [spotify/android-sdk](https://github.com/spotify/android-sdk/tree/master/app-remote-lib) (Apache-2.0) et place-le dans `app/libs/`. Il n'est pas versionné ici.
 3. **Application Spotify.** Crée une app sur le [Spotify Developer Dashboard](https://developer.spotify.com/dashboard) et renseigne :
    - l'URI de redirection `org-vander-androidapp://callback` ;
    - l'Android package `org.vander.android.vinylify` et l'empreinte SHA-1 de ta clé de signature (utile à App Remote).
@@ -73,6 +73,11 @@ di/             modules Hilt
    ```
 
 Tests unitaires : `./gradlew :app:testDebugUnitTest`.
+
+## CI / CD
+
+- **CI** (`.github/workflows/ci.yml`) : à chaque push sur `main` et chaque pull request, construit le SDK depuis son dépôt, lance les tests unitaires et compile les variantes debug et release (R8 et lint compris). L'APK debug est joint au run.
+- **CD** (`.github/workflows/release.yml`) : pousser un tag `v*` (par exemple `git tag v0.2.0 && git push --tags`) construit l'APK et crée une release GitHub. Sans clé de signature, il s'agit d'un APK debug publié en pré-release. Pour une release signée, ajoute les secrets `KEYSTORE_BASE64`, `KEYSTORE_PASSWORD`, `KEY_ALIAS` et `KEY_PASSWORD`, et `SPOTIFY_CLIENT_ID` pour que l'APK contienne ton client ID.
 
 ## Licence
 

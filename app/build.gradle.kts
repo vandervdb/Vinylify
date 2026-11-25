@@ -39,8 +39,23 @@ android {
         manifestPlaceholders["spotifyRedirectHost"] = "callback"
     }
 
+    // Signature de release : uniquement si KEYSTORE_FILE est fourni (CI/CD). Sans elle, la release
+    // reste « unsigned » et la compilation locale n'a besoin d'aucun secret.
+    val releaseKeystore: String? = System.getenv("KEYSTORE_FILE")
+    signingConfigs {
+        if (releaseKeystore != null) {
+            create("release") {
+                storeFile = file(releaseKeystore)
+                storePassword = System.getenv("KEYSTORE_PASSWORD")
+                keyAlias = System.getenv("KEY_ALIAS")
+                keyPassword = System.getenv("KEY_PASSWORD")
+            }
+        }
+    }
+
     buildTypes {
         release {
+            if (releaseKeystore != null) signingConfig = signingConfigs.getByName("release")
             isMinifyEnabled = true
             proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
         }
