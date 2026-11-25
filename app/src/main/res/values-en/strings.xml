@@ -24,7 +24,6 @@
 
     <!-- Bottom bar / navigation rail labels -->
     <string name="nav_label_home">Home</string>
-    <string name="nav_label_spotify">Spotify</string>
 
     <!-- Top snackbar (VinylSnackbarHost) -->
     <string name="snack_auth_failed_title">Spotify sign-in failed</string>
@@ -49,8 +48,4 @@
     <string name="home_load_failed">Couldn\'t load your library.</string>
     <string name="home_load_retry">Try again</string>
     <string name="home_library_title">Your library</string>
-    <plurals name="home_library_count">
-        <item quantity="one">%d playlist</item>
-        <item quantity="other">%d playlists</item>
-    </plurals>
 </resources>
