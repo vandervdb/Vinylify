@@ -1,0 +1,183 @@
+<resources>
+    <string name="app_name">Vinylify</string>
+
+    <!-- HomeScreen (screen 01 "Connexion Spotify") -->
+    <string name="home_headline">Ta discothèque,\nà ta façon.</string>
+    <string name="home_subtitle">Vinylify lit ta bibliothèque Spotify : albums enregistrés, playlists, titres likés, artistes suivis.</string>
+    <string name="home_continue_button">Continuer avec Spotify</string>
+    <string name="home_disclaimer">Connexion via ton compte Spotify. Compte Premium requis pour la lecture ; aucune donnée revendue.</string>
+
+
+    <!-- SpotifyScreen -->
+    <string name="spotify_playlists_title">Playlists</string>
+    <string name="spotify_error_prefix">❌ Erreur : %1$s</string>
+    <string name="spotify_by_prefix">par </string>
+    <string name="spotify_display_name_fallback">Toi</string>
+
+    <!-- Shared content descriptions -->
+    <string name="content_desc_spotify_logo">Logo Spotify</string>
+    <string name="content_desc_remove_from_library">Retirer de la bibliothèque</string>
+    <string name="content_desc_save_to_library">Ajouter à la bibliothèque</string>
+    <string name="content_desc_play">Lecture</string>
+    <string name="content_desc_pause">Pause</string>
+    <string name="content_desc_playlist_playing">%1$s, en cours de lecture</string>
+
+    <!-- Bottom bar / navigation rail labels -->
+    <string name="nav_label_home">Accueil</string>
+    <string name="nav_label_search">Chercher</string>
+    <string name="nav_label_library">Bibliothèque</string>
+    <string name="nav_label_profile">Profil</string>
+
+    <!-- Snackbar haute (VinylSnackbarHost) -->
+    <string name="snack_auth_failed_title">Connexion Spotify échouée</string>
+    <string name="snack_auth_failed_message">Impossible d\'autoriser ton compte. Vérifie ta connexion et réessaie.</string>
+    <string name="snack_retry">Réessayer</string>
+
+    <!-- Texte gravé dans le sillon du loader (VinylDisc) -->
+    <string name="loader_brand">VINYLIFY</string>
+    <string name="loader_connecting">CONNEXION…</string>
+    <string name="loader_connected">CONNECTÉ</string>
+
+    <!-- Écran 02 « Accueil » (HomeContent) -->
+    <string name="brand_name">Vinylify</string>
+    <string name="content_desc_search">Rechercher</string>
+    <string name="content_desc_settings">Réglages</string>
+    <string name="home_filter_all">Tout</string>
+    <string name="home_filter_albums">Albums</string>
+    <string name="home_filter_playlists">Playlists</string>
+    <string name="home_filter_artists">Artistes</string>
+    <string name="home_resume_kicker">Reprendre l\'écoute</string>
+    <string name="home_resume_listen">Écouter</string>
+    <string name="home_load_failed">Impossible de charger ta bibliothèque.</string>
+    <string name="home_load_retry">Réessayer</string>
+    <string name="home_library_title">Ta bibliothèque</string>
+    <plurals name="home_count_all">
+        <item quantity="one">%d élément</item>
+        <item quantity="many">%d éléments</item>
+        <item quantity="other">%d éléments</item>
+    </plurals>
+    <plurals name="home_count_albums">
+        <item quantity="one">%d album</item>
+        <item quantity="many">%d albums</item>
+        <item quantity="other">%d albums</item>
+    </plurals>
+    <plurals name="home_count_playlists">
+        <item quantity="one">%d playlist</item>
+        <item quantity="many">%d playlists</item>
+        <item quantity="other">%d playlists</item>
+    </plurals>
+    <plurals name="home_count_artists">
+        <item quantity="one">%d artiste</item>
+        <item quantity="many">%d artistes</item>
+        <item quantity="other">%d artistes</item>
+    </plurals>
+
+    <!-- MiniPlayer sans lecture -->
+    <string name="mini_idle_connecting">Connexion à Spotify…</string>
+    <string name="mini_idle_connected">Lance un disque depuis Spotify</string>
+    <string name="mini_idle_failed">Ouvre l\'app Spotify pour écouter</string>
+
+    <!-- Écran 06 « Lecteur » -->
+    <string name="player_nothing_playing">Rien en cours de lecture</string>
+    <string name="content_desc_close_player">Fermer le lecteur</string>
+    <string name="content_desc_shuffle">Lecture aléatoire</string>
+    <string name="content_desc_previous">Titre précédent</string>
+    <string name="content_desc_next">Titre suivant</string>
+    <string name="content_desc_repeat">Répéter</string>
+
+    <!-- Écran 04 « Bibliothèque » -->
+    <string name="library_title">Bibliothèque</string>
+    <string name="library_liked_title">Titres likés</string>
+    <string name="library_sub_album">Album · %1$s</string>
+    <string name="library_sub_album_plain">Album</string>
+    <string name="library_sub_artist">Artiste suivi</string>
+    <plurals name="library_sub_playlist">
+        <item quantity="one">Playlist · %1$d titre</item>
+        <item quantity="many">Playlist · %1$d titres</item>
+        <item quantity="other">Playlist · %1$d titres</item>
+    </plurals>
+    <plurals name="library_sub_liked">
+        <item quantity="one">Playlist · %1$d titre</item>
+        <item quantity="many">Playlist · %1$d titres</item>
+        <item quantity="other">Playlist · %1$d titres</item>
+    </plurals>
+
+    <!-- Écran 10 « Profil » -->
+    <string name="profile_connected">Connecté via Spotify</string>
+    <string name="profile_connected_premium">Connecté via Spotify · Premium</string>
+    <string name="profile_stat_albums">Albums</string>
+    <string name="profile_stat_liked">Likés</string>
+    <string name="profile_stat_following">Suivis</string>
+    <string name="profile_settings">Réglages</string>
+    <string name="profile_account">Compte Spotify</string>
+    <string name="profile_account_manage">Gérer ›</string>
+    <string name="profile_sign_out">Se déconnecter</string>
+
+    <!-- Écran 07 « File d\'attente » -->
+    <string name="queue_title">File d\'attente</string>
+    <string name="queue_now">En cours</string>
+    <string name="queue_next">Ensuite</string>
+    <string name="queue_empty">Rien à suivre</string>
+    <string name="content_desc_close_queue">Fermer la file d\'attente</string>
+    <string name="player_open_queue">File d\'attente</string>
+
+    <!-- Paroles (source : LRCLIB) -->
+    <string name="lyrics_title">Paroles</string>
+    <string name="player_open_lyrics">Paroles</string>
+    <string name="content_desc_close_lyrics">Fermer les paroles</string>
+    <string name="lyrics_loading">Recherche des paroles…</string>
+    <string name="lyrics_not_found">Pas de paroles pour ce titre</string>
+    <string name="lyrics_failed">Les paroles n\'ont pas pu être chargées</string>
+    <string name="lyrics_instrumental">Titre instrumental</string>
+
+    <!-- Écran 03 « Recherche » -->
+    <string name="search_title">Chercher</string>
+    <string name="search_hint">Titre, album, artiste…</string>
+    <string name="search_empty_hint">Cherche un titre, un album, un artiste ou une playlist.</string>
+    <string name="search_no_results">Aucun résultat pour « %1$s »</string>
+    <string name="search_error">La recherche a échoué. Réessaie.</string>
+    <string name="search_section_albums">Albums</string>
+    <string name="search_section_artists">Artistes</string>
+    <string name="search_section_playlists">Playlists</string>
+    <string name="search_section_tracks">Titres</string>
+    <string name="search_artist_sub">Artiste</string>
+
+    <!-- Écrans 05 « Album » et 08 « Artiste » -->
+    <string name="content_desc_back">Retour</string>
+    <string name="detail_loading">Chargement…</string>
+    <string name="detail_error">Impossible de charger cet écran.</string>
+    <string name="action_listen">Écouter</string>
+    <string name="album_kind">Album</string>
+    <plurals name="album_summary">
+        <item quantity="one">%1$d titre · %2$d min</item>
+        <item quantity="many">%1$d titres · %2$d min</item>
+        <item quantity="other">%1$d titres · %2$d min</item>
+    </plurals>
+    <plurals name="artist_albums_count">
+        <item quantity="one">%d album</item>
+        <item quantity="many">%d albums</item>
+        <item quantity="other">%d albums</item>
+    </plurals>
+    <string name="artist_top_tracks">Titres populaires</string>
+    <string name="artist_albums">Albums</string>
+    <string name="artist_follow">Suivre</string>
+    <string name="artist_following">Suivi</string>
+    <string name="artist_follow_failed">Impossible de modifier le suivi pour le moment.</string>
+
+    <!-- Détail d'une playlist -->
+    <string name="playlist_kind">Playlist</string>
+    <plurals name="playlist_summary">
+        <item quantity="one">%d titre</item>
+        <item quantity="many">%d titres</item>
+        <item quantity="other">%d titres</item>
+    </plurals>
+
+    <!-- Réglages -->
+    <string name="settings_title">Réglages</string>
+    <string name="settings_section_account">Compte</string>
+    <string name="settings_section_about">À propos</string>
+    <string name="settings_version">Version</string>
+    <string name="settings_sign_out_title">Se déconnecter ?</string>
+    <string name="settings_sign_out_message">Tu devras te reconnecter à Spotify pour retrouver ta bibliothèque.</string>
+    <string name="settings_cancel">Annuler</string>
+</resources>

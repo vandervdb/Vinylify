@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+   Android 12+ (API 31+). Le jeton Spotify est chiffré (EncryptedTokenStore) par une clé maître de
+   l'Android Keystore, qui ne voyage ni avec la sauvegarde cloud ni avec un transfert d'appareil :
+   le fichier restauré serait illisible. On exclut le fichier chiffré, le keyset Tink qui l'accompagne
+   et l'ancien fichier en clair (DataStoreTokenStore de la lib), au cas où il subsisterait.
+-->
+<data-extraction-rules>
+    <cloud-backup>
+        <exclude domain="file" path="datastore/spotify_token_encrypted.preferences_pb" />
+        <exclude domain="file" path="datastore/spotify_session.preferences_pb" />
+        <exclude domain="sharedpref" path="vinylotech_keyset_prefs.xml" />
+    </cloud-backup>
+    <device-transfer>
+        <exclude domain="file" path="datastore/spotify_token_encrypted.preferences_pb" />
+        <exclude domain="file" path="datastore/spotify_session.preferences_pb" />
+        <exclude domain="sharedpref" path="vinylotech_keyset_prefs.xml" />
+    </device-transfer>
+</data-extraction-rules>

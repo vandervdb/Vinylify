@@ -1,0 +1,42 @@
+# Gradle
+.gradle/
+build/
+!gradle/wrapper/gradle-wrapper.jar
+local.properties
+
+# Android
+*.apk
+*.aab
+*.ap_
+*.dex
+*.class
+captures/
+.externalNativeBuild/
+.cxx/
+release/
+out-tsc/
+
+# IDE
+.idea/
+*.iml
+*.iws
+*.ipr
+.DS_Store
+
+# Kotlin / Java
+*.hprof
+
+# Kotlin compiler session
+.kotlin/
+
+# Serena MCP workspace (local tooling state)
+.serena/
+
+# AI agent artifacts (local, absolute paths)
+.artifacts/
+
+# Aperçu Markdown local
+.npp-md-preview.html
+
+# Binaire Spotify App Remote : non redistribuable, à télécharger depuis le dépôt Spotify
+app/libs/*.aar

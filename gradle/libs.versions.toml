@@ -1,0 +1,78 @@
+[versions]
+# 36 : imposé par des dépendances transitives (androidx.core 1.18, navigationevent) ; targetSdk reste 35.
+android-compileSdk = "36"
+android-minSdk = "26"
+android-targetSdk = "35"
+kotlin = "2.4.0"
+agp = "8.13.2"
+spotify-sdk = "0.1.0-SNAPSHOT"
+
+androidx-core-ktx = "1.16.0"
+core-splashscreen = "1.2.0"
+activity-compose = "1.10.1"
+lifecycle = "2.8.7"
+navigation = "2.8.4"
+material = "1.13.0"
+coil = "2.7.0"
+# Même pin que vinyl-otech : dernier BOM résolvable avec AGP 8.13.2 / compileSdk 35.
+compose-bom = "2025.12.00"
+coroutines = "1.9.0"
+serialization = "1.6.3"
+tink = "1.20.0"
+datastore = "1.1.1"
+
+# Même pin que vinyl-otech : Hilt 2.60+ exige AGP 9, et kapt n'existe plus avec le Kotlin intégré d'AGP 9.
+hilt = "2.58"
+hilt-androidx = "1.1.0"
+hilt-nav-compose = "1.2.0"
+
+junit4 = "4.13.2"
+mockk = "1.13.10"
+turbine = "1.0.0"
+
+[libraries]
+spotify-android = { module = "io.github.vandervdb:spotify-android", version.ref = "spotify-sdk" }
+spotify-android-hilt = { module = "io.github.vandervdb:spotify-android-hilt", version.ref = "spotify-sdk" }
+spotify-testing = { module = "io.github.vandervdb:spotify-testing", version.ref = "spotify-sdk" }
+spotify-android-testing = { module = "io.github.vandervdb:spotify-android-testing", version.ref = "spotify-sdk" }
+
+androidx-core-splashscreen = { module = "androidx.core:core-splashscreen", version.ref = "core-splashscreen" }
+androidx-core-ktx = { module = "androidx.core:core-ktx", version.ref = "androidx-core-ktx" }
+activity-compose = { module = "androidx.activity:activity-compose", version.ref = "activity-compose" }
+lifecycle-runtime-compose = { module = "androidx.lifecycle:lifecycle-runtime-compose", version.ref = "lifecycle" }
+lifecycle-viewmodel-compose = { module = "androidx.lifecycle:lifecycle-viewmodel-compose", version.ref = "lifecycle" }
+navigation-compose = { module = "androidx.navigation:navigation-compose", version.ref = "navigation" }
+material = { module = "com.google.android.material:material", version.ref = "material" }
+coil-compose = { module = "io.coil-kt:coil-compose", version.ref = "coil" }
+
+compose-bom = { module = "androidx.compose:compose-bom", version.ref = "compose-bom" }
+compose-ui = { module = "androidx.compose.ui:ui" }
+compose-ui-graphics = { module = "androidx.compose.ui:ui-graphics" }
+compose-ui-tooling = { module = "androidx.compose.ui:ui-tooling" }
+compose-ui-tooling-preview = { module = "androidx.compose.ui:ui-tooling-preview" }
+compose-ui-text-google-fonts = { module = "androidx.compose.ui:ui-text-google-fonts" }
+compose-material3 = { module = "androidx.compose.material3:material3" }
+compose-material-icons-ext = { module = "androidx.compose.material:material-icons-extended" }
+
+kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "serialization" }
+tink-android = { module = "com.google.crypto.tink:tink-android", version.ref = "tink" }
+datastore-preferences = { module = "androidx.datastore:datastore-preferences", version.ref = "datastore" }
+kotlinx-coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "coroutines" }
+
+hilt-android = { module = "com.google.dagger:hilt-android", version.ref = "hilt" }
+hilt-compiler = { module = "com.google.dagger:hilt-android-compiler", version.ref = "hilt" }
+androidx-hilt-compiler = { module = "androidx.hilt:hilt-compiler", version.ref = "hilt-androidx" }
+hilt-navigation-compose = { module = "androidx.hilt:hilt-navigation-compose", version.ref = "hilt-nav-compose" }
+# Kapt lit les métadonnées Kotlin ; le lecteur embarqué par Dagger retarde sur Kotlin (google/dagger#5177).
+kotlin-metadata-jvm = { module = "org.jetbrains.kotlin:kotlin-metadata-jvm", version.ref = "kotlin" }
+
+junit4 = { module = "junit:junit", version.ref = "junit4" }
+mockk = { module = "io.mockk:mockk", version.ref = "mockk" }
+turbine = { module = "app.cash.turbine:turbine", version.ref = "turbine" }
+
+[plugins]
+android-application = { id = "com.android.application", version.ref = "agp" }
+kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
+kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
+kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
+hilt = { id = "com.google.dagger.hilt.android", version.ref = "hilt" }
