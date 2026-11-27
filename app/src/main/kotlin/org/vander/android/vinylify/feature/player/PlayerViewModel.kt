@@ -107,6 +107,18 @@ class PlayerViewModel
             viewModelScope.launch { player.connect() }
         }
 
+        /**
+         * Attend que la liaison soit en échec (Spotify la coupe volontiers en arrière-plan), puis
+         * tente **une seule** réouverture : pas de boucle si Spotify reste injoignable.
+         *
+         * La tentative part dans `viewModelScope` : annulée avec l'appelant, `connect()` laisserait
+         * la liaison bloquée en `Connecting`.
+         */
+        suspend fun reconnectWhenLost() {
+            connection.first { it is PlayerConnection.Failed }
+            retryConnect()
+        }
+
         /** Relit l'état « liké » à chaque changement de titre, en annulant la lecture précédente. */
         private fun trackSavedState() {
             viewModelScope.launch {

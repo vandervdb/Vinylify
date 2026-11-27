@@ -1,10 +1,14 @@
 package org.vander.android.vinylify.feature.player
 
+import kotlinx.coroutines.CoroutineStart
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.test.runTest
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNull
 import org.junit.Rule
 import org.junit.Test
 import org.vander.android.vinylify.testing.MainDispatcherRule
+import org.vander.spotify.SpotifyError
 import org.vander.spotify.android.NowPlaying
 import org.vander.spotify.android.PlayerConnection
 import org.vander.spotify.android.RepeatMode
@@ -50,6 +54,50 @@ class PlayerViewModelTest {
 
         assertEquals(PlayerConnection.Connected, player.connection.value)
     }
+
+    private val lost = SpotifyError.Network(IllegalStateException("liaison coupee"))
+
+    @Test
+    fun `une liaison coupee est rouverte au retour au premier plan`() =
+        runTest {
+            val subject = viewModel()
+            client.emitSession(SessionState.Authorized)
+            player.nextConnectFailure = lost
+            player.connect()
+
+            subject.reconnectWhenLost()
+
+            assertEquals(PlayerConnection.Connected, player.connection.value)
+            assertEquals(3, player.connectCalls)
+        }
+
+    @Test
+    fun `une coupure signalee apres le retour au premier plan est aussi rattrapee`() =
+        runTest {
+            val subject = viewModel()
+            client.emitSession(SessionState.Authorized)
+            val watcher = launch(start = CoroutineStart.UNDISPATCHED) { subject.reconnectWhenLost() }
+            assertEquals(1, player.connectCalls)
+
+            player.nextConnectFailure = lost
+            player.connect()
+            watcher.join()
+
+            assertEquals(PlayerConnection.Connected, player.connection.value)
+            assertEquals(3, player.connectCalls)
+        }
+
+    @Test
+    fun `une liaison ouverte n'est pas rouverte`() =
+        runTest {
+            val subject = viewModel()
+            client.emitSession(SessionState.Authorized)
+
+            val watcher = launch(start = CoroutineStart.UNDISPATCHED) { subject.reconnectWhenLost() }
+
+            assertEquals(1, player.connectCalls)
+            watcher.cancel()
+        }
 
     @Test
     fun `togglePlayPause met en pause un titre qui joue`() {
