@@ -21,11 +21,6 @@ dependencyResolutionManagement {
     repositories {
         google()
         mavenCentral()
-        // spotify-sdk n'est pas publié : on le consomme depuis `./gradlew publishToMavenLocal`
-        // lancé dans /Users/vander/Dev/Code/spotify-sdk.
-        mavenLocal {
-            content { includeGroup("io.github.vandervdb") }
-        }
     }
 }
 
