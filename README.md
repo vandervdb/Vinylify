@@ -57,17 +57,16 @@ di/             modules Hilt
 
 ## Lancer le projet
 
-1. **Dépendance SDK.** Le SDK n'est pas publié : il est lu depuis `mavenLocal`. Dans le dépôt [spotify-sdk](https://github.com/vandervdb/spotify-sdk), publie les modules Android et cœur (voir son README), puis reviens ici.
-2. **AAR App Remote.** Télécharge `spotify-app-remote-release-0.8.0.aar` depuis [spotify/android-sdk](https://github.com/spotify/android-sdk/tree/master/app-remote-lib) (Apache-2.0) et place-le dans `app/libs/`. Il n'est pas versionné ici.
-3. **Application Spotify.** Crée une app sur le [Spotify Developer Dashboard](https://developer.spotify.com/dashboard) et renseigne :
+1. **AAR App Remote.** Télécharge `spotify-app-remote-release-0.8.0.aar` depuis [spotify/android-sdk](https://github.com/spotify/android-sdk/tree/master/app-remote-lib) (Apache-2.0) et place-le dans `app/libs/`. Il n'est pas versionné ici.
+2. **Application Spotify.** Crée une app sur le [Spotify Developer Dashboard](https://developer.spotify.com/dashboard) et renseigne :
    - l'URI de redirection `org-vander-androidapp://callback` ;
    - l'Android package `org.vander.android.vinylify` et l'empreinte SHA-1 de ta clé de signature (utile à App Remote).
-4. **Client ID.** Fournis-le par variable d'environnement `SPOTIFY_CLIENT_ID`, ou dans `local.properties` :
+3. **Client ID.** Fournis-le par variable d'environnement `SPOTIFY_CLIENT_ID`, ou dans `local.properties` :
    ```properties
    CLIENT_ID=ton_client_id
    ```
    Il n'est jamais commité. Il n'y a pas de client secret : le SDK utilise PKCE.
-5. **Compiler et installer** :
+4. **Compiler et installer** :
    ```bash
    ./gradlew :app:installDebug
    ```
