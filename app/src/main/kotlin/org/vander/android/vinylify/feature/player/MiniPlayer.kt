@@ -67,6 +67,7 @@ fun MiniPlayer(
     onSeek: (Long) -> Unit,
     onSkipNext: () -> Unit,
     onPreviousTrack: () -> Unit,
+    onRetryConnect: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
     Column(
@@ -81,7 +82,10 @@ fun MiniPlayer(
             modifier =
                 Modifier
                     .fillMaxWidth()
-                    .clickable(enabled = nowPlaying != null, onClick = onOpen)
+                    .clickable(
+                        enabled = nowPlaying != null || connection is PlayerConnection.Failed,
+                        onClick = if (nowPlaying != null) onOpen else onRetryConnect,
+                    )
                     .padding(start = VotDimens.space10, end = VotDimens.space10, top = VotDimens.space10),
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.spacedBy(VotDimens.space12),
@@ -194,7 +198,7 @@ private val previewNowPlaying =
 private fun MiniPlayerPreview() {
     AndroidAppTheme {
         Box(Modifier.padding(VotDimens.space14)) {
-            MiniPlayer(previewNowPlaying, PlayerConnection.Connected, isSaved = true, {}, {}, {}, {}, {}, {})
+            MiniPlayer(previewNowPlaying, PlayerConnection.Connected, isSaved = true, {}, {}, {}, {}, {}, {}, {})
         }
     }
 }
@@ -204,7 +208,7 @@ private fun MiniPlayerPreview() {
 private fun MiniPlayerIdlePreview() {
     AndroidAppTheme {
         Box(Modifier.padding(VotDimens.space14)) {
-            MiniPlayer(null, PlayerConnection.Connected, isSaved = null, {}, {}, {}, {}, {}, {})
+            MiniPlayer(null, PlayerConnection.Connected, isSaved = null, {}, {}, {}, {}, {}, {}, {})
         }
     }
 }

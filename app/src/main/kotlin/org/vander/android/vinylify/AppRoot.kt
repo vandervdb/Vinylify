@@ -22,7 +22,10 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.NavDestination.Companion.hasRoute
 import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.compose.currentBackStackEntryAsState
@@ -88,6 +91,12 @@ fun AppRoot(session: SessionViewModel) {
     val snack = rememberVinylSnackbarHostState()
     AuthFailureSnackbarEffect(sessionState, snack, onRetry = session::signIn)
 
+    // Hors du slot MiniPlayer : la reconnexion doit aussi jouer sur les écrans qui ne l'affichent pas.
+    if (backEntry?.destination?.hierarchy?.any { it.hasRoute(MainGraph::class) } == true) {
+        val parent = remember(backEntry) { navController.getBackStackEntry<MainGraph>() }
+        ReconnectPlayerEffect(hiltViewModel<PlayerViewModel>(parent))
+    }
+
     MainShell(
         chrome = chrome,
         holdBottomPadding = connectionStillVisible,
@@ -114,6 +123,7 @@ fun AppRoot(session: SessionViewModel) {
                 onSeek = player::seekTo,
                 onSkipNext = player::skipNext,
                 onPreviousTrack = player::previousTrack,
+                onRetryConnect = player::retryConnect,
             )
         },
     ) { padding ->
@@ -123,6 +133,15 @@ fun AppRoot(session: SessionViewModel) {
             contentPadding = padding,
             startDestination = startDestination,
         )
+    }
+}
+
+/** Une tentative de reconnexion à chaque passage au premier plan. */
+@Composable
+private fun ReconnectPlayerEffect(player: PlayerViewModel) {
+    val lifecycleOwner = LocalLifecycleOwner.current
+    LaunchedEffect(player, lifecycleOwner) {
+        lifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) { player.reconnectWhenLost() }
     }
 }
 
