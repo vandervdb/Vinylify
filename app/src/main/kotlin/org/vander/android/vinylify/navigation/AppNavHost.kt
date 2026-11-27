@@ -29,6 +29,7 @@ import org.vander.android.vinylify.feature.library.libraryNavGraph
 import org.vander.android.vinylify.feature.lyrics.LyricsRoute
 import org.vander.android.vinylify.feature.lyrics.LyricsViewModel
 import org.vander.android.vinylify.feature.lyrics.lyricsNavGraph
+import org.vander.android.vinylify.feature.player.PlayerRoute
 import org.vander.android.vinylify.feature.player.playerNavGraph
 import org.vander.android.vinylify.feature.profile.profileNavGraph
 import org.vander.android.vinylify.feature.queue.QueueRoute
@@ -113,6 +114,14 @@ fun AppNavHost(
             onClose = { navController.popBackStack() },
             onOpenQueue = { navController.navigate(QueueRoute) },
             onOpenLyrics = { navController.navigate(LyricsRoute) },
+            // La modale se referme : la page s'empile sur l'onglet courant, avec dock et MiniPlayer,
+            // et Retour ramène à cet onglet plutôt qu'au Lecteur.
+            onOpenArtist = { id ->
+                navController.navigate(ArtistRoute(id)) { popUpTo<PlayerRoute> { inclusive = true } }
+            },
+            onOpenAlbum = { id ->
+                navController.navigate(AlbumRoute(id)) { popUpTo<PlayerRoute> { inclusive = true } }
+            },
         )
 
         queueNavGraph(onClose = { navController.popBackStack() })

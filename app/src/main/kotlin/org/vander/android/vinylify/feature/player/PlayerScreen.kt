@@ -1,6 +1,7 @@
 package org.vander.android.vinylify.feature.player
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxWithConstraints
@@ -104,6 +105,8 @@ fun NavGraphBuilder.playerNavGraph(
     onClose: () -> Unit,
     onOpenQueue: () -> Unit,
     onOpenLyrics: () -> Unit,
+    onOpenArtist: (String) -> Unit,
+    onOpenAlbum: (String) -> Unit,
 ) {
     composable<PlayerRoute>(
         enterTransition = { modalEnter() },
@@ -131,6 +134,8 @@ fun NavGraphBuilder.playerNavGraph(
             onToggleShuffle = viewModel::toggleShuffle,
             onCycleRepeat = viewModel::cycleRepeat,
             onToggleSave = viewModel::toggleSave,
+            onOpenArtist = onOpenArtist,
+            onOpenAlbum = onOpenAlbum,
         )
     }
 }
@@ -151,6 +156,8 @@ fun PlayerScreen(
     onToggleShuffle: () -> Unit,
     onCycleRepeat: () -> Unit,
     onToggleSave: () -> Unit,
+    onOpenArtist: (String) -> Unit,
+    onOpenAlbum: (String) -> Unit,
 ) {
     // Dit à la platine de quel côté sortir la pochette quand un bouton change de titre.
     val skipAnimation = rememberSkipAnimationState()
@@ -196,8 +203,23 @@ fun PlayerScreen(
 
         Row(verticalAlignment = Alignment.CenterVertically) {
             Column(Modifier.weight(1f)) {
-                Text(nowPlaying.title, style = MaterialTheme.typography.headlineSmall, color = VinylTextEmphasis, maxLines = 2)
-                Text(nowPlaying.artist, style = ListTitleTextStyle, color = VinylTextSecondary, maxLines = 1)
+                // Inertes tant que l'ID manque (fichier local, publicité) : rien vers quoi naviguer.
+                val albumId = nowPlaying.albumId
+                val artistId = nowPlaying.artistId
+                Text(
+                    nowPlaying.title,
+                    style = MaterialTheme.typography.headlineSmall,
+                    color = VinylTextEmphasis,
+                    maxLines = 2,
+                    modifier = Modifier.clickable(enabled = albumId != null) { albumId?.let(onOpenAlbum) },
+                )
+                Text(
+                    nowPlaying.artist,
+                    style = ListTitleTextStyle,
+                    color = VinylTextSecondary,
+                    maxLines = 1,
+                    modifier = Modifier.clickable(enabled = artistId != null) { artistId?.let(onOpenArtist) },
+                )
             }
             // Toujours affiché : tant que l'état est inconnu, le cœur est vide et un tap le relit.
             val saved = isSaved == true
