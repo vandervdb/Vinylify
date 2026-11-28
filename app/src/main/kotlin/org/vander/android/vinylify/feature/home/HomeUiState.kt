@@ -13,6 +13,7 @@ import org.vander.android.vinylify.R
  * @property playingEntryId entrée dont le contenu est en cours de lecture, `null` sinon.
  * @property resume ce que le héros met en avant ; `null` masque le bloc.
  * @property isLoaded l'historique a été lu au moins une fois : distingue « vide » de « pas encore là ».
+ * @property keptSinceMs écoute la plus ancienne conservée sur l'appareil, `null` sans historique.
  * @property loadFailed le chargement a échoué malgré les nouvelles tentatives : l'écran propose de
  *   réessayer plutôt que d'afficher une liste vide sans explication.
  */
@@ -22,6 +23,7 @@ data class HomeUiState(
     val resume: ResumeListening? = null,
     val isLoaded: Boolean = false,
     val loadFailed: Boolean = false,
+    val keptSinceMs: Long? = null,
 )
 
 data class RecentSection(

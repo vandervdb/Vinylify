@@ -59,6 +59,7 @@
     <string name="home_recent_album_progress">%1$d / %2$d</string>
     <string name="home_recent_expand">Show tracks</string>
     <string name="home_recent_collapse">Hide tracks</string>
+    <string name="home_recent_kept_since">History kept since %1$s</string>
     <plurals name="home_recent_track_count">
         <item quantity="one">%d track</item>
         <item quantity="other">%d tracks</item>

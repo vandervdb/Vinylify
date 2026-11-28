@@ -15,6 +15,7 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
+import org.vander.android.vinylify.data.history.PlayHistoryStore
 import org.vander.spotify.SpotifyClient
 import org.vander.spotify.android.NowPlaying
 import org.vander.spotify.android.SpotifyPlayer
@@ -33,9 +34,9 @@ import javax.inject.Inject
  * Accueil : « Dernièrement écouté », regroupé par jour et par source, avec un héros qui relance
  * la dernière écoute.
  *
- * L'historique n'est pas un `StateFlow` de la lib (un appel, un résultat) : le ViewModel en garde
- * la dernière réponse. Les playlists, elles, viennent du cache de la lib et servent à nommer les
- * playlists de l'historique.
+ * L'historique vient du [PlayHistoryStore] : Spotify ne rend que ~50 écoutes, chaque chargement
+ * y verse les nouvelles pour remonter plus loin. Les playlists viennent du cache de la lib et
+ * servent à nommer les playlists de l'historique.
  *
  * @param nowMs horloge murale, injectable pour figer « Aujourd'hui » / « Hier » en test.
  */
@@ -43,18 +44,21 @@ import javax.inject.Inject
 class HomeViewModel(
     private val spotify: SpotifyClient,
     private val player: SpotifyPlayer,
+    private val store: PlayHistoryStore,
     private val nowMs: () -> Long,
 ) : ViewModel() {
     @Inject
-    constructor(spotify: SpotifyClient, player: SpotifyPlayer) : this(spotify, player, System::currentTimeMillis)
+    constructor(spotify: SpotifyClient, player: SpotifyPlayer, store: PlayHistoryStore) :
+        this(spotify, player, store, System::currentTimeMillis)
 
-    private val history = MutableStateFlow<List<PlayHistory>?>(null)
+    /** Un chargement a abouti : distingue « historique vide » de « pas encore demandé ». */
+    private val fetched = MutableStateFlow(false)
 
     private val loadFailed = MutableStateFlow(false)
     private var loadJob: Job? = null
 
     val state: StateFlow<HomeUiState> =
-        combine(history, spotify.playlists, player.nowPlaying, loadFailed, ::buildState)
+        combine(store.history, spotify.playlists, player.nowPlaying, loadFailed, fetched, ::buildState)
             .stateIn(viewModelScope, SharingStarted.WhileSubscribed(STOP_TIMEOUT_MS), HomeUiState())
 
     init {
@@ -127,24 +131,27 @@ class HomeViewModel(
     private suspend fun loadRecent(): Boolean {
         val recent = spotify.recentlyPlayed(HISTORY_LIMIT).getOrElse { return false }
         if (spotify.playlists.value.items.isEmpty()) spotify.refreshPlaylists()
-        history.value = recent
+        store.merge(recent, keepAfterMs = nowMs() - RETENTION_MS)
+        fetched.value = true
         loadFailed.value = false
         return true
     }
 
     private fun buildState(
-        history: List<PlayHistory>?,
+        history: List<PlayHistory>,
         playlists: PlaylistCollection,
         nowPlaying: NowPlaying?,
         failed: Boolean,
+        fetched: Boolean,
     ): HomeUiState {
-        val sections = groupRecent(history.orEmpty(), playlists.items, nowMs())
+        val sections = groupRecent(history, playlists.items, nowMs())
         val latest = sections.firstOrNull()?.entries?.firstOrNull()
         return HomeUiState(
             sections = sections,
             playingEntryId = playingEntryId(sections, nowPlaying),
             resume = latest?.let { ResumeListening(title = it.title, subtitle = it.detail, isSaved = null) },
-            isLoaded = history != null,
+            isLoaded = fetched || history.isNotEmpty(),
+            keptSinceMs = history.lastOrNull()?.playedAtMs,
             loadFailed = failed,
         )
     }
@@ -168,5 +175,6 @@ class HomeViewModel(
         const val RETRY_DELAY_MS = 1_500L
         const val HISTORY_LIMIT = 50
         const val HISTORY_SETTLE_MS = 3_000L
+        const val RETENTION_MS = 90L * 24 * 60 * 60 * 1_000
     }
 }

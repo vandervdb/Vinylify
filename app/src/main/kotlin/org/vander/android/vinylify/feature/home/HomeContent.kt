@@ -44,6 +44,7 @@ import androidx.compose.ui.res.pluralStringResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.clearAndSetSemantics
 import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -80,6 +81,7 @@ private const val KEY_RESUME = "home:resume"
 private const val KEY_SECTION = "home:section"
 private const val KEY_ERROR = "home:error"
 private const val KEY_EMPTY = "home:empty"
+private const val KEY_KEPT_SINCE = "home:keptSince"
 
 /**
  * The whole Accueil screen, without a ViewModel: it draws [state] and reports what the user does.
@@ -170,6 +172,10 @@ fun HomeContent(
                             onTrackClick = onTrackClick,
                         )
                     }
+                }
+
+                state.keptSinceMs?.takeIf { state.sections.isNotEmpty() }?.let { since ->
+                    item(key = KEY_KEPT_SINCE, contentType = KEY_KEPT_SINCE) { KeptSince(since) }
                 }
             }
         }
@@ -382,6 +388,19 @@ private fun playedAtLabel(
             DateUtils.formatDateTime(context, playedAtMs, DateUtils.FORMAT_SHOW_WEEKDAY or DateUtils.FORMAT_ABBREV_WEEKDAY or DateUtils.FORMAT_SHOW_TIME)
         RecentDay.Earlier -> DateUtils.formatDateTime(context, playedAtMs, DateUtils.FORMAT_SHOW_DATE or DateUtils.FORMAT_ABBREV_MONTH)
     }
+}
+
+/** Spotify ne garde qu'une cinquantaine d'écoutes : dire d'où part la liste évite de croire à un oubli. */
+@Composable
+private fun KeptSince(sinceMs: Long) {
+    val date = DateUtils.formatDateTime(LocalContext.current, sinceMs, DateUtils.FORMAT_SHOW_DATE or DateUtils.FORMAT_ABBREV_MONTH)
+    Text(
+        stringResource(R.string.home_recent_kept_since, date).withNumerals(),
+        style = MaterialTheme.typography.bodySmall,
+        color = VinylTextTertiary,
+        modifier = Modifier.fillMaxWidth().padding(top = VotDimens.space14),
+        textAlign = TextAlign.Center,
+    )
 }
 
 @Composable

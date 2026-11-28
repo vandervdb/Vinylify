@@ -62,6 +62,7 @@
     <string name="home_recent_album_progress">%1$d / %2$d</string>
     <string name="home_recent_expand">Afficher les titres</string>
     <string name="home_recent_collapse">Masquer les titres</string>
+    <string name="home_recent_kept_since">Historique conservé depuis le %1$s</string>
     <plurals name="home_recent_track_count">
         <item quantity="one">%d titre</item>
         <item quantity="many">%d titres</item>
