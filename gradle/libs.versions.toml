@@ -5,7 +5,7 @@ android-minSdk = "26"
 android-targetSdk = "35"
 kotlin = "2.4.0"
 agp = "8.13.2"
-spotify-sdk = "0.2.0"
+spotify-sdk = "0.3.0"
 
 androidx-core-ktx = "1.16.0"
 core-splashscreen = "1.2.0"
@@ -20,6 +20,7 @@ coroutines = "1.9.0"
 serialization = "1.6.3"
 tink = "1.20.0"
 datastore = "1.1.1"
+room = "2.8.4"
 
 # Même pin que vinyl-otech : Hilt 2.60+ exige AGP 9, et kapt n'existe plus avec le Kotlin intégré d'AGP 9.
 hilt = "2.58"
@@ -64,6 +65,9 @@ hilt-compiler = { module = "com.google.dagger:hilt-android-compiler", version.re
 androidx-hilt-compiler = { module = "androidx.hilt:hilt-compiler", version.ref = "hilt-androidx" }
 hilt-navigation-compose = { module = "androidx.hilt:hilt-navigation-compose", version.ref = "hilt-nav-compose" }
 # Kapt lit les métadonnées Kotlin ; le lecteur embarqué par Dagger retarde sur Kotlin (google/dagger#5177).
+room-runtime = { module = "androidx.room:room-runtime", version.ref = "room" }
+room-ktx = { module = "androidx.room:room-ktx", version.ref = "room" }
+room-compiler = { module = "androidx.room:room-compiler", version.ref = "room" }
 kotlin-metadata-jvm = { module = "org.jetbrains.kotlin:kotlin-metadata-jvm", version.ref = "kotlin" }
 
 junit4 = { module = "junit:junit", version.ref = "junit4" }

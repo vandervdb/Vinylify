@@ -33,11 +33,11 @@ fun HomeScreen(
     HomeContent(
         state = state,
         modifier = Modifier.fillMaxSize(),
-        onFilterSelect = viewModel::onFilterSelect,
         onSettingsClick = onOpenSettings,
         onSearchClick = onOpenSearch,
         onResumeListen = viewModel::onResumeListen,
         onRetry = viewModel::onRetry,
-        onTileClick = { tile -> onOpen(tile.kind, tile.id) },
+        onEntryClick = { entry -> onOpen(entry.kind, entry.targetId) },
+        onTrackClick = viewModel::onTrackClick,
     )
 }

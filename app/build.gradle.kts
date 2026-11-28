@@ -97,6 +97,8 @@ dependencies {
     implementation(libs.kotlinx.serialization.json)
     implementation(libs.tink.android)
     implementation(libs.datastore.preferences)
+    implementation(libs.room.runtime)
+    implementation(libs.room.ktx)
 
     implementation(platform(libs.compose.bom))
     implementation(libs.compose.ui)
@@ -112,6 +114,7 @@ dependencies {
     implementation(libs.hilt.android)
     kapt(libs.hilt.compiler)
     kapt(libs.androidx.hilt.compiler)
+    kapt(libs.room.compiler)
     kapt(libs.kotlin.metadata.jvm)
     implementation(libs.hilt.navigation.compose)
 
