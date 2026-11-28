@@ -41,7 +41,7 @@ Toutes sont des polices Google Fonts téléchargées à l'exécution (Google Pla
 
 - **Kotlin** 2.4, **Jetpack Compose** (Material 3, BOM 2025.12), **Navigation Compose**
 - **Hilt** pour l'injection, ViewModels et `StateFlow`
-- **[spotify-sdk](https://github.com/vandervdb/spotify-sdk)** : le SDK maison (Kotlin Multiplatform) qui porte l'API Web Spotify, l'authentification, App Remote et les paroles. Publié sur Maven Central (`io.github.vandervdb`), sa version est fixée dans `gradle/libs.versions.toml`. Le temps que la 0.3.0 (historique d'écoute) y paraisse, le build la lit depuis `mavenLocal` : publie-la d'abord depuis le dépôt du SDK avec `./gradlew publishToMavenLocal -PreleaseVersion=0.3.0-SNAPSHOT`
+- **[spotify-sdk](https://github.com/vandervdb/spotify-sdk)** : le SDK maison (Kotlin Multiplatform) qui porte l'API Web Spotify, l'authentification, App Remote et les paroles. Publié sur Maven Central (`io.github.vandervdb`), sa version est fixée dans `gradle/libs.versions.toml`
 - Tink + Android Keystore pour le chiffrement du jeton
 - **Room** pour l'historique d'écoute conservé sur l'appareil
 - Android **minSdk 26**, targetSdk 35
