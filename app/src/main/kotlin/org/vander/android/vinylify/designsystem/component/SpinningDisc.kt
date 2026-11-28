@@ -80,7 +80,7 @@ fun isTextHidden(
  * l'angle courant, et une décélération jusqu'à 0° à l'arrêt plutôt qu'un figeage net —
  * l'inertie d'un plateau. Pas de bras ici : la maquette n'en pose pas sur les vignettes.
  *
- * L'état de l'animation suit l'item par la clé de `items` ([CollectionTile.id]), donc le recyclage
+ * L'état de l'animation suit l'item par la clé de `items` (identifiant de la vignette), donc le recyclage
  * du `LazyVerticalGrid` ne le transfère pas d'une tile à l'autre.
  *
  * @param grooveTextMaxArcDegrees arc maximal du texte gravé ; au-delà il est coupé au dernier mot entier, suivi de « … ».

@@ -5,7 +5,7 @@ android-minSdk = "26"
 android-targetSdk = "35"
 kotlin = "2.4.0"
 agp = "8.13.2"
-spotify-sdk = "0.2.0"
+spotify-sdk = "0.3.0-SNAPSHOT"
 
 androidx-core-ktx = "1.16.0"
 core-splashscreen = "1.2.0"

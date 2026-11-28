@@ -19,6 +19,11 @@ plugins {
 dependencyResolutionManagement {
     repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
     repositories {
+        // Temporaire : SDK 0.3.0-SNAPSHOT publié par `publishToMavenLocal`, à retirer une fois
+        // la 0.3.0 sur Maven Central.
+        mavenLocal {
+            content { includeGroup("io.github.vandervdb") }
+        }
         google()
         mavenCentral()
     }
