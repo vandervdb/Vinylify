@@ -13,7 +13,7 @@ Une application Android qui transforme ta bibliothèque Spotify en discothèque 
 
 - **Connexion Spotify** par OAuth PKCE (aucun secret embarqué). La session est conservée, le jeton est chiffré (Tink + Android Keystore).
 - **Splash animé** de 4 secondes : la platine du loader se pose, tourne un cycle, puis se fond dans l'écran de connexion ou l'accueil.
-- **Accueil** : reprise de l'écoute avec le dernier album enregistré, filtres (Tout, Albums, Playlists, Artistes) et grille de pochettes avec leur disque.
+- **Accueil** : reprise de la dernière écoute et **« Dernièrement écouté »**, l'historique Spotify rangé par jour (aujourd'hui, hier, cette semaine, plus tôt). Les écoutes consécutives d'un même album, d'une même playlist ou d'un même artiste forment une seule ligne, avec le nombre de titres, la durée estimée, la plage horaire et la progression dans l'album (« 6 / 10 »). Une ligne se déplie pour montrer les titres écoutés, et un tap sur un titre le relance. Spotify ne garde qu'une cinquantaine d'écoutes : l'application les conserve sur l'appareil pendant 90 jours pour remonter plus loin.
 - **Bibliothèque, Recherche** (par titre, album, artiste ou playlist), pages **Album**, **Artiste** et **Playlist**.
 - **Lecteur** : une vraie platine. La pochette surplombe le disque, le bras de lecture se pose, le disque tourne et ralentit à l'arrêt. Un balayage de la pochette passe au morceau suivant ou précédent, la platine reste en place. Un tap sur l'artiste ouvre sa page, un tap sur le titre ouvre l'album.
 - **Paroles** synchronisées (via [LRCLIB](https://lrclib.net)), affichées en plein écran et **gravées le long d'un sillon du disque** : le texte ne change que lorsqu'il passe derrière la pochette, sans mise à jour en temps réel.
@@ -41,13 +41,15 @@ Toutes sont des polices Google Fonts téléchargées à l'exécution (Google Pla
 
 - **Kotlin** 2.4, **Jetpack Compose** (Material 3, BOM 2025.12), **Navigation Compose**
 - **Hilt** pour l'injection, ViewModels et `StateFlow`
-- **[spotify-sdk](https://github.com/vandervdb/spotify-sdk)** : le SDK maison (Kotlin Multiplatform) qui porte l'API Web Spotify, l'authentification, App Remote et les paroles. Publié sur Maven Central (`io.github.vandervdb`), sa version est fixée dans `gradle/libs.versions.toml`
+- **[spotify-sdk](https://github.com/vandervdb/spotify-sdk)** : le SDK maison (Kotlin Multiplatform) qui porte l'API Web Spotify, l'authentification, App Remote et les paroles. Publié sur Maven Central (`io.github.vandervdb`), sa version est fixée dans `gradle/libs.versions.toml`. Le temps que la 0.3.0 (historique d'écoute) y paraisse, le build la lit depuis `mavenLocal` : publie-la d'abord depuis le dépôt du SDK avec `./gradlew publishToMavenLocal -PreleaseVersion=0.3.0-SNAPSHOT`
 - Tink + Android Keystore pour le chiffrement du jeton
+- **Room** pour l'historique d'écoute conservé sur l'appareil
 - Android **minSdk 26**, targetSdk 35
 
 Organisation du code (`app/src/main/kotlin/org/vander/android/vinylify`) :
 
 ```
+data/           historique d'écoute conservé sur l'appareil (Room)
 designsystem/   thème, couleurs, typographie, composants (platine, disque, loader, dock…)
 feature/        un dossier par écran : connection, home, library, search, album, artist,
                 playlist, player, lyrics, queue, profile, settings
